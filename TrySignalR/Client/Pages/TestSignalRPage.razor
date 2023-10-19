@@ -1,0 +1,63 @@
+﻿@page "/testsignalrpage"
+@using Microsoft.AspNetCore.SignalR.Client
+
+@* we should dispose our connection when we done *@
+@implements IAsyncDisposable
+
+
+<h3>TestSignalRPage</h3>
+
+<PageTitle> TestSignalRPage </PageTitle>
+
+<h1>message form the server: </h1>
+
+<ul>
+    @foreach (var msg in _messages)
+    {
+        <li>@msg </li>
+    }
+</ul>
+
+
+@code {
+    
+    // 1. define a private filed to represent a connection to the SignalR connection
+    private HubConnection _hubConnection;
+    
+    // 2. define data 
+    // list of string that contain our messages
+    private List<string> _messages = new List<string>();
+    
+    // 3. define the hub address   
+    // hub url
+    private readonly string _hubUrl = "http://localhost:5230/notifications";
+    
+    // call the this method when  the  component Initialized
+    protected override async Task OnInitializedAsync()
+    {
+        // 4. connecting to our SignalR hub
+        // obtain the connection to the SignalR hub
+        _hubConnection = new HubConnectionBuilder().WithUrl(_hubUrl).Build();
+        
+        // 5. use callback
+        // callbacks when connected the hub,
+        _hubConnection.On<string>("ReceiveNotification", message =>
+        {
+            _messages.Add(message);
+           //6. refresh the page
+           // tell blazor to refresh user interface
+         InvokeAsync(StateHasChanged);
+        });
+            
+        // 7. start hub connection
+        await _hubConnection.StartAsync();
+        
+    }
+
+    // 8. we should dispose our connection when we done 
+    public async ValueTask DisposeAsync()
+    {
+        await _hubConnection.DisposeAsync();
+    }
+    
+}

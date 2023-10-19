@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrySignalR.Server", "TrySignalR\Server\TrySignalR.Server.csproj", "{C6BD13BF-6222-4267-A17C-C2E51C6CA698}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrySignalR.Client", "TrySignalR\Client\TrySignalR.Client.csproj", "{BD893617-6CBD-4AA5-A488-CE7D2917C2E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrySignalR.Shared", "TrySignalR\Shared\TrySignalR.Shared.csproj", "{361C7A13-7E21-4B0D-96B7-7B30747C7F1C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6BD13BF-6222-4267-A17C-C2E51C6CA698}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6BD13BF-6222-4267-A17C-C2E51C6CA698}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6BD13BF-6222-4267-A17C-C2E51C6CA698}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6BD13BF-6222-4267-A17C-C2E51C6CA698}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD893617-6CBD-4AA5-A488-CE7D2917C2E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD893617-6CBD-4AA5-A488-CE7D2917C2E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD893617-6CBD-4AA5-A488-CE7D2917C2E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD893617-6CBD-4AA5-A488-CE7D2917C2E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{361C7A13-7E21-4B0D-96B7-7B30747C7F1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{361C7A13-7E21-4B0D-96B7-7B30747C7F1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{361C7A13-7E21-4B0D-96B7-7B30747C7F1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{361C7A13-7E21-4B0D-96B7-7B30747C7F1C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
