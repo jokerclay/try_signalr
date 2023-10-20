@@ -1,0 +1,59 @@
+﻿@page "/getmessagefromserver"
+@using Microsoft.AspNetCore.SignalR.Client
+@inject  NavigationManager _navManager 
+
+@* we should dispose our connection when we done *@
+@implements IAsyncDisposable
+
+
+<h3>GetMessageFromServer</h3>
+
+<foreach></foreach> 
+
+<ul>
+    
+    
+@*
+@foreach (var msg in _messages)
+{
+    <li>@msg</li>
+}
+*@
+
+
+
+<li>@_msg </li>
+
+
+</ul>
+
+
+@code {
+    // private readonly List<string> _messages = new List<string>();
+    private string _msg = string.Empty;
+    
+    
+    private HubConnection? _serverHubConnection;
+    
+    private string _hubUrl = string.Empty;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _hubUrl = _navManager.BaseUri + "messagehub";
+        _serverHubConnection = new HubConnectionBuilder().WithUrl(_hubUrl).Build();
+        
+        _serverHubConnection.On<string>("ReceiveServerMessages", message =>
+        {
+            _msg = message;
+            // _messages.Add(message);
+            InvokeAsync(StateHasChanged);
+        });
+        await _serverHubConnection.StartAsync();
+    }
+    
+    public async ValueTask DisposeAsync()
+    {
+        if (_serverHubConnection != null) await _serverHubConnection.DisposeAsync();
+    }
+    
+}

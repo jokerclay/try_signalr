@@ -1,5 +1,7 @@
 ﻿@page "/testsignalrpage"
 @using Microsoft.AspNetCore.SignalR.Client
+@using System.Globalization
+@inject  NavigationManager _navManager 
 
 @* we should dispose our connection when we done *@
 @implements IAsyncDisposable
@@ -11,30 +13,40 @@
 
 <h1>message form the server: </h1>
 
-<ul>
-    @foreach (var msg in _messages)
-    {
-        <li>@msg </li>
-    }
-</ul>
+<strong><h1>@_msg</h1></strong>
+
+<div>
+    <button @onclick="TurnOn " >Turn Connection On</button>
+</div>
+
+<div>
+    <button @onclick="TurnOff " >Turn Connection Off</button>
+</div>
 
 
 @code {
-    
+
     // 1. define a private filed to represent a connection to the SignalR connection
-    private HubConnection _hubConnection;
-    
+    private HubConnection? _hubConnection;
+
     // 2. define data 
     // list of string that contain our messages
-    private List<string> _messages = new List<string>();
-    
+    // private List<string> _messages = new List<string>();
+    private string _msg = "服务器时间 = ";
+
     // 3. define the hub address   
     // hub url
-    private readonly string _hubUrl = "http://localhost:5230/notifications";
+    // private string _hubUrl = "http://localhost:5230/notifications";
+     private string _hubUrl = string.Empty;
+    
     
     // call the this method when  the  component Initialized
     protected override async Task OnInitializedAsync()
     {
+        _hubUrl = _navManager.BaseUri + "notifications";
+
+       //  _hubUrl = "http://localhost:7099/notifications";
+
         // 4. connecting to our SignalR hub
         // obtain the connection to the SignalR hub
         _hubConnection = new HubConnectionBuilder().WithUrl(_hubUrl).Build();
@@ -43,14 +55,15 @@
         // callbacks when connected the hub,
         _hubConnection.On<string>("ReceiveNotification", message =>
         {
-            _messages.Add(message);
+            _msg = message;
+            // _messages.Add(message);
            //6. refresh the page
            // tell blazor to refresh user interface
          InvokeAsync(StateHasChanged);
         });
             
         // 7. start hub connection
-        await _hubConnection.StartAsync();
+       //  await _hubConnection.StartAsync();
         
     }
 
@@ -59,5 +72,22 @@
     {
         await _hubConnection.DisposeAsync();
     }
+    
+    private async Task TurnOn()
+    {
+        if (_hubConnection.State == HubConnectionState.Disconnected)
+        {
+            await _hubConnection.StartAsync();
+        }
+    }
+    
+    private async Task TurnOff()
+    {
+        if (_hubConnection.State == HubConnectionState.Connected)
+        {
+            await _hubConnection.StopAsync();
+        }
+    }
+    
     
 }

@@ -7,7 +7,7 @@ public class ServerTimeNotifier:BackgroundService
 {
     // represent for how often  sent the notification to the SignalR client
     // every 1 second
-    private readonly TimeSpan Period  = TimeSpan.FromSeconds(1);
+    private readonly TimeSpan Period  = TimeSpan.FromSeconds(0.01);
     // inject logger
     private readonly ILogger<ServerTimeNotifier> _logger;
     

@@ -37,6 +37,7 @@ builder.Services.AddSignalR();
 
 // service
 builder.Services.AddHostedService<ServerTimeNotifier>();    // start it when the backend application start
+builder.Services.AddHostedService<ServerService>();    // start it when the backend application start
 #endregion
 
 
@@ -78,6 +79,14 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 
+
+#region  CORS policy
+// AllowAny Client connect  to our backend to avoid cors issues
+// In production, configure policy to match  specific client application
+app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+#endregion
+
+
 app.UseRouting();
 
 
@@ -93,6 +102,8 @@ app.MapFallbackToFile("index.html");
 // your hub class and route 
 app.MapHub<NotificationsHub>("/notifications");
 
+
+app.MapHub<ReveiceMessageHub>("/messagehub");
 #region useAuth
 
 app.UseAuthorization();
@@ -100,13 +111,6 @@ app.UseAuthorization();
 
 #endregion
 
-
-
-#region  CORS policy
-// AllowAny Client connect  to our backend to avoid cors issues
-// In production, configure policy to match  specific client application
-app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
-#endregion
 
 
 app.Run();
